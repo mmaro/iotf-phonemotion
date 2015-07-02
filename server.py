@@ -12,17 +12,12 @@ import bottle
 import sys
 import traceback
 import logging
-from bottle import HTTPResponse
 
 # monitoring setup
 pagerduty = None
 slack = None
 
-# Set global logging level off for everything.  Comment this out to get logs
-# or set to logging.<LEVEL> to get level desired.
-logging.disable(sys.maxint)
-
-def do_monitor():	
+def do_monitor():
 	try:
 		exception = sys.exc_info()[1]
 		stack = traceback.format_exc()
@@ -51,7 +46,7 @@ if "VCAP_APPLICATION" in os.environ:
 	
 	uri = application["application_uris"][0]
 	
-	# Check we have a cloudantNoSQLDB service bound	
+	# Check we have a cloudantNoSQLDB service bound
 	if "cloudantNoSQLDB" not in service:
 		print(" CloudantNoSQLDB service has not been bound!")
 		raise Exception("cloudantNoSQLDB service has not been bound!")
@@ -77,9 +72,15 @@ host = str(os.getenv('VCAP_APP_HOST', "0.0.0.0"))
 
 # =============================================================================
 # Choose application theme
+# 
+# 1. default
+# 2. simple
+# 3. bluemix
+# 4. bluemixJuly2015 [in development]
 # =============================================================================
 theme = os.getenv('theme', "bluemix")
 print("Using theme '%s'" % theme)
+
 
 # =============================================================================
 # Configure global properties
@@ -280,7 +281,7 @@ def handle_websocket():
 		except WebSocketError as e:
 			# This can occur if the browser has navigated away from the page, so the best action to take is to stop.
 			print "WebSocket error during loop: %s" % str(e)
-			break	
+			break
 	# Always ensure we disconnect. Since we are using QoS0 and cleanSession=true, we don't need to worry about cleaning up old subscriptions as we go: the IoT Foundation
 	# will handle this automatically.
 	if client is not None:
