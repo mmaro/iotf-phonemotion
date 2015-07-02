@@ -1,0 +1,5 @@
+ibmiotf==0.1.2
+bottle
+cloudant
+gevent
+gevent-websocket
