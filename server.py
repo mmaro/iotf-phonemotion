@@ -254,7 +254,7 @@ def handle_websocket():
 			else:
 				deviceId = str(document['device']["id"])
 				deviceType = str(document['device']["type"])
-				options = {"org": applicationOptions['org'], "id": str(uuid.uuid4()), "auth-method": authMethod, "auth-key": authKey, "auth-token": authToken}
+				options = {"org": applicationOptions['org'], "id": str(uuid.uuid4()), "auth-method": applicationOptions['auth-method'], "auth-key": applicationOptions['auth-key'], "auth-token": applicationOptions['auth-token']}
 				try :
 					client = ibmiotf.application.Client(options)
 					
