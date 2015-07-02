@@ -39,14 +39,14 @@ $ cf push <app_name> --no-start
 
 ###Create the required services
 ```bash
-$ cf create-service iotf-service iotf-service-bronze iotdemo-iotf
-$ cf create-service cloudantNoSQLDB Shared iotdemo-cloudant
+$ cf create-service iotf-service iotf-service-bronze phonemotion-iotf
+$ cf create-service cloudantNoSQLDB Shared phonemotion-cloudant
 ```
 
 ### Bind the services to your application
 ```bash
-$ cf bind-service <app_name> iotdemo-iotf
-$ cf bind-service <app_name> iotdemo-cloudant
+$ cf bind-service <app_name> phonemotion-iotf
+$ cf bind-service <app_name> phonemotion-cloudant
 ```
 
 ###Start the application

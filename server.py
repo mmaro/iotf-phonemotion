@@ -135,9 +135,7 @@ def register():
 		else:
 			print("Creating new registration for %s" % data["email"])
 			# Create doc
-			options = ibmiotf.application.ParseConfigFromBluemixVCAP()
-			
-			registrationClient = ibmiotf.application.Client(options)
+			registrationClient = ibmiotf.application.Client(applicationOptions)
 			device = registrationClient.api.registerDevice("zone-sample", uuid.uuid4().hex, {"registeredTo": data["email"]} )
 			response = doc.put(params={
 				'id': data["email"],
@@ -147,7 +145,7 @@ def register():
 					'id': device['id'], 
 					'authtoken': device['password'],
 					'clientid': device['uuid'],
-					'orgid': organization
+					'orgid': applicationOptions['org']
 				}
 			}).result(10)
 			if response.status_code == 201:
@@ -256,7 +254,7 @@ def handle_websocket():
 			else:
 				deviceId = str(document['device']["id"])
 				deviceType = str(document['device']["type"])
-				options = {"org": organization, "id": str(uuid.uuid4()), "auth-method": authMethod, "auth-key": authKey, "auth-token": authToken}
+				options = {"org": applicationOptions['org'], "id": str(uuid.uuid4()), "auth-method": authMethod, "auth-key": authKey, "auth-token": authToken}
 				try :
 					client = ibmiotf.application.Client(options)
 					
