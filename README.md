@@ -1,5 +1,5 @@
 #IoTF PhoneMotion Demo Application
-Sample application demonstrating how to send events to the cloud from a device and process them in an application.  The application demonstrates one approach to delegating access to sensor data in the IOT Foundation to users of a backend application utilising an IOT Foundation API key. 
+Demonstration application showing how to send events to the cloud from a device and process them in an application.  The application demonstrates one approach to delegating access to sensor data to users of a backend application authenticated with a single API key.
 
 See the demo application running live: http://iot-demo.mybluemix.net/
 

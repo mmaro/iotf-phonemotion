@@ -11,12 +11,6 @@ ul.nav li.active a:active, ul.nav li.active a:hover, ul.nav li.active a:focus, u
 	background-color:#fff;
 }
 
-
-/* initially set the connectedPanel to no display */
-div#connectedPanel {
-	display:none
-}
-
 div#connectWarning, div#registerWarning , div#goWarning, div#vibrationWarning {
 	visibility: hidden
 }
@@ -148,8 +142,8 @@ html, body {
 }
 
 img.divider-line {
-	margin-top: 1.5em;
-	margin-bottom: 1.5em;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 .iotDemo ol, .iotDemo ul {
@@ -176,7 +170,9 @@ div#name-entry-section {
 }
 
 div#connectedPanel {
+	display:none;
 	padding-top: 0;
+	padding-left:0px
 }
 
 @media screen and (min-width: 1440px){
