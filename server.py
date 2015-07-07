@@ -157,7 +157,7 @@ def register():
 	except:
 		do_monitor()
 		print "Unexpected error:", traceback.format_exc()
-		raise
+		sys.exit(1)
 		
 
 
@@ -197,10 +197,13 @@ def auth():
 			except (ValueError, KeyError):
 				print("PIN has an unexpected value: "+data["pin"])
 				return bottle.HTTPResponse(status=403, body="Incorrect code for '"+data["email"]+"'");
+	except HTTPError as e:
+		print "HTTPError during auth: %s" % str(e)
+		raise
 	except:
 		do_monitor()
 		print "Unexpected error:", traceback.format_exc()
-		raise
+		sys.exit(1)
 
 @app.route('/device/<id>')
 def device(id):
@@ -264,14 +267,19 @@ def handle_websocket():
 					client.subscribeToDeviceEvents(deviceType, deviceId, "+")
 				except ibmiotf.ConnectionException as e: 
 					# We've been unable to do the initial connect. In this case, we'll terminate the socket to trigger the client to try again.
+					do_monitor()
 					print ("Connect attempt failed: "+str(e))
 					wsock.close()
+					sys.exit(1)
 	except WebSocketError as e:
 		print "WebSocket error during subscriber setup: %s" % str(e)
+	except HTTPError as e:
+		print "HTTPError handling websocket: %s" % str(e)
+		raise
 	except:
 		do_monitor()
 		print("Unexpected error:", sys.exc_info()[1])
-		raise
+		sys.exit(1)
 	#Send the message back
 	while True:
 		try:
