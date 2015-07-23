@@ -32,13 +32,14 @@ It is better if you have a Bluemix account before you get started. https://bluem
 (https://bluemix.net/deploy/button.png)]
 (https://bluemix.net/deploy?repository=)
 
+See everything deployed in your [Bluemix dashboard](bluemix.net/?direct=classic/#/resources).
 
 Or if you want to deploy from your local command-line...
 
-###Prerequisites:
-GigHub CLI "git" https://help.github.com/articles/set-up-git/
-Cloud Foundary CLI "cf" https://github.com/cloudfoundry/cli/releases
-Bluemix account: https://bluemix.net/registration
+###Bluemix Command-line Prerequisites
++ GitHub client [git](https://github.com/)
++ Cloud Foundry CLI [cf](https://github.com/cloudfoundry/cli/releases)
++ Bluemix account [register](https://bluemix.net/registration)
 
 ###Get the sample source code
 ```
@@ -52,7 +53,7 @@ $ cf push <app_name> --no-start
 
 ###Create the required services
 ```bash
-$ cf create-service iotf-service iotf-service-bronze phonemotion-iotf
+$ cf create-service iotf-service iotf-service-free phonemotion-iotf
 $ cf create-service cloudantNoSQLDB Shared phonemotion-cloudant
 ```
 
