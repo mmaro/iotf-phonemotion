@@ -1,9 +1,7 @@
 #IoTF PhoneMotion Demo Application
 Demonstration application showing how to send events to the cloud from a device and process them in an application.  The application demonstrates one approach to delegating access to sensor data to users of a backend application authenticated with a single API key.
 
-See the demo application running live: http://iot-demo.mybluemix.net/
-
-You can also see the demo application running in the IBM Bluemix Internet of Things solutions page https://console.ng.bluemix.net/solutions/iot
+See the demo application running live in the IBM Bluemix Internet of Things solutions page https://console.ng.bluemix.net/solutions/iot
 
 
 ---
@@ -25,7 +23,18 @@ The second part of the application is a page designed to be run on a users phone
 
 
 ##Bluemix Deployment
-The sample is specifically designed to be deployed into Bluemix.  The application requires a binding to both an instance of the IOTF & Cloudant services.
+
+
+Deploy the mobile phone demonstration into your own set of Bluemix services: a Python runtime, the Internet of Things service for devices, MQTT messaging and the Cloudant service for application data. 
+
+[![Deploy to Bluemix]
+(https://bluemix.net/deploy/button.png)]
+(https://bluemix.net/deploy?repository=)
+
+
+Or if you want to deploy from your local command-line...
+
+Requires git and cf.
 
 ###Get the sample source code
 ```

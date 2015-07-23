@@ -1,6 +1,18 @@
+declared-services:
+  iot-python-phone-demo-cloudantNoSQLDB:
+    label: cloudantNoSQLDB
+    plan: Shared
+  iot-python-phone-demo-iotf-service:
+    label: iotf-service
+    plan: iotf-service-free
+  
 applications:
-- command: python server.py
-  path: .
-  instances: 5
-  memory: 1024M
-  buildpack: https://github.com/heroku/heroku-buildpack-python.git
+- services:
+  - iot-python-phone-demo-cloudantNoSQLDB
+  - iot-python-phone-demo-iotf-service
+  host: iot-python-phone-demo
+  name: iot-python-phone-demo
+  memory: 64M
+  disk_quota: 256M
+  command: python server.py
+  instances: 1
