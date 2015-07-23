@@ -1,7 +1,7 @@
-#IoTF PhoneMotion Demo Application
+#Internet of Things PhoneMotion Demo Application
 Demonstration application showing how to send events to the cloud from a device and process them in an application.  The application demonstrates one approach to delegating access to sensor data to users of a backend application authenticated with a single API key.
 
-See the demo application running live in the IBM Bluemix Internet of Things solutions page https://console.ng.bluemix.net/solutions/iot
+See the demo application running live in the IBM Bluemix Internet of Things solutions page https://bluemix.net/solutions/iot
 
 
 ---
@@ -16,7 +16,7 @@ The main application is a Python WSGI server which primarily exists to provide d
 
 
 ### The Simulated Device
-The second part of the application is a page designed to be run on a users phone that uses JavaScript to simulate device code running on the phone.  The device code presents the same username & PIN to the backend application for authentication, on a successful authentication the backend application will provide the device with the necessary credentials required to connect securely to the IOT Foundation.
+The second part of the application is a page designed to be run on a users phone that uses JavaScript to simulate device code running on the phone.  The device code presents the same username & PIN to the backend application for authentication, on a successful authentication the backend application will provide the device with the necessary credentials required to connect securely to the Internet of Things service.
 
 
 ---
@@ -24,8 +24,9 @@ The second part of the application is a page designed to be run on a users phone
 
 ##Bluemix Deployment
 
+Deploy the mobile phone demonstration into your own set of Bluemix services: a Python runtime, the Internet of Things service for device MQTT messaging and the Cloudant service for application data.
 
-Deploy the mobile phone demonstration into your own set of Bluemix services: a Python runtime, the Internet of Things service for devices, MQTT messaging and the Cloudant service for application data. 
+It is better if you have a Bluemix account before you get started. https://bluemix.net/registration
 
 [![Deploy to Bluemix]
 (https://bluemix.net/deploy/button.png)]
@@ -34,7 +35,10 @@ Deploy the mobile phone demonstration into your own set of Bluemix services: a P
 
 Or if you want to deploy from your local command-line...
 
-Requires git and cf.
+###Prerequisites:
+GigHub CLI "git" https://help.github.com/articles/set-up-git/
+Cloud Foundary CLI "cf" https://github.com/cloudfoundry/cli/releases
+Bluemix account: https://bluemix.net/registration
 
 ###Get the sample source code
 ```
@@ -71,7 +75,7 @@ Open http://&lt;app_name&gt;.mybluemix.net/ in a browser
 
 
 ##Configuration
-The demo supports multiple themes.  The Demo running in Bluemix uses a highly customised theme specifically designed for the IOT Bluemix Zone, but there are a number of simpler themes included in the sample code that provide a cleaner starting point for building your own application based on this sample.
+The demo supports multiple themes.  The Demo running in Bluemix uses a highly customised theme specifically designed for the Bluemix Internet of Things solution page, but there are a number of simpler themes included in the sample code that provide a cleaner starting point for building your own application based on this sample.
 
 One way to do this is to use the cf **set-env** command:
 ```
