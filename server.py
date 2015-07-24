@@ -138,6 +138,7 @@ def register():
 			# Create doc
 			registrationClient = ibmiotf.application.Client(applicationOptions)
 			device = registrationClient.api.registerDevice("zone-sample", uuid.uuid4().hex, {"registeredTo": data["email"]} )
+			registrationClient.disconnect()
 			response = doc.put(params={
 				'id': data["email"],
 				'pin': data["pin"],
@@ -151,7 +152,7 @@ def register():
 			}).result(10)
 			if response.status_code == 201:
 				return HTTPResponse(status=201)
-				
+							
 		# Shouldn't get here, if we do an error has occurred
 		return bottle.HTTPResponse(status=500, body="An internal server error occurred");
 	except:
