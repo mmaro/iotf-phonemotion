@@ -32,7 +32,7 @@ It is better if you have a Bluemix account before you get started. https://bluem
 (https://bluemix.net/deploy/button.png)]
 (https://bluemix.net/deploy?repository=)
 
-See everything deployed in your [Bluemix dashboard](bluemix.net/?direct=classic/#/resources).
+See everything deployed in your [Bluemix dashboard](https://bluemix.net/?direct=classic/#/resources).
 
 Or if you want to deploy from your local command-line...
 
