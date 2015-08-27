@@ -1,4 +1,4 @@
-ibmiotf==0.1.2
+ibmiotf==0.1.4
 bottle
 cloudant
 gevent
