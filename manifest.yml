@@ -10,7 +10,7 @@ applications:
 - services:
   - iotdemo-cloudant
   - iotdemo-iotf
-  memory: 128M
+  memory: 256M
   disk_quota: 512M
   command: python server.py
   instances: 5

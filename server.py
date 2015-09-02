@@ -18,10 +18,10 @@ from logging.handlers import RotatingFileHandler
 # Generate a default rotating file log handler and stream handler
 logFileName = 'server.log'
 fhFormatter = logging.Formatter('%(asctime)-25s %(name)-25s ' + ' %(levelname)-7s %(message)s')
-rfh = RotatingFileHandler(logFileName, mode='a', maxBytes=52428800 , backupCount=1, encoding=None, delay=True)
+rfh = RotatingFileHandler(logFileName, mode='a', maxBytes=26214400 , backupCount=2, encoding=None, delay=True)
 rfh.setFormatter(fhFormatter)
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("server")
 logger.addHandler(rfh)
 logger.setLevel(logging.DEBUG)
 
@@ -198,7 +198,7 @@ def auth():
 			logger.debug("User already registered: %s" % data["email"])
 			docBody = response.json()
 			try:
-				if int(docBody["pin"]) != int(data["pin"]):
+				if docBody["pin"] != data["pin"]:
 					logger.error("PIN for %s does not match (%s != %s)" % (data["email"], docBody["pin"], data["pin"]))
 					return bottle.HTTPResponse(status=403, body="Incorrect PIN code for '"+data["email"]+"'");
 				else:
@@ -249,7 +249,7 @@ def handle_websocket():
 			abort(400, 'No data or non UTF-8 data received over WebSocket')
 		
 		data = json.loads(message)
-		pin = int(data["pin"])
+		pin = data["pin"]
 	
 		doc = cloudantDb.document(urllib.quote(data["email"]))
 		response = doc.get().result(10)
@@ -270,9 +270,16 @@ def handle_websocket():
 				try :
 					clientsLogFileName = "device." + data["email"] + ".log"
 					fhFormatter = logging.Formatter('%(asctime)-25s %(name)-25s ' + ' %(levelname)-7s %(message)s')
-					clientsLogHandler = RotatingFileHandler(clientsLogFileName, mode='a', maxBytes=10240 , backupCount=0, encoding=None, delay=True)
+					clientsLogHandler = RotatingFileHandler(clientsLogFileName, mode='a', maxBytes=102400 , backupCount=2, encoding=None, delay=True)
 					clientsLogHandler.setFormatter(fhFormatter)
+					logger.info("Using log file %s" % clientsLogFileName)
+					deviceLogger = logging.getLogger("device.%s" % data["email"])
+					deviceLogger.propagate = False
+					deviceLogger.addHandler(clientsLogHandler)
+					deviceLogger.setLevel(logging.DEBUG)
+					
 					client = ibmiotf.application.Client(options, logHandlers=[clientsLogHandler])
+					client.logger.propagate = False
 					
 					client.connect()
 					client.deviceEventCallback = myEventCallback
@@ -281,16 +288,20 @@ def handle_websocket():
 					# We've been unable to do the initial connect. In this case, we'll terminate the socket to trigger the client to try again.
 					do_monitor()
 					logger.error("Connect attempt failed: %s" % str(e))
+					deviceLogger.error("Connect attempt failed: %s" % str(e))
 					wsock.close()
 					sys.exit(1)
 	except WebSocketError as e:
 		logger.error("WebSocket error during subscriber setup: %s" % str(e))
+		deviceLogger.error("WebSocket error during subscriber setup: %s" % str(e))
 	except HTTPError as e:
 		logger.error("HTTPError handling websocket: %s" % str(e))
+		deviceLogger.error("HTTPError handling websocket: %s" % str(e))
 		raise
 	except:
 		do_monitor()
 		logger.error("Unexpected error:", sys.exc_info()[1])
+		deviceLogger.error("Unexpected error:", sys.exc_info()[1])
 		sys.exit(1)
 	#Send the message back
 	while True:
@@ -301,12 +312,19 @@ def handle_websocket():
 		except WebSocketError as e:
 			# This can occur if the browser has navigated away from the page, so the best action to take is to stop.
 			logger.error("WebSocket error during loop: %s" % str(e))
+			deviceLogger.error("WebSocket error during loop: %s" % str(e))
 			break
 	# Always ensure we disconnect. Since we are using QoS0 and cleanSession=true, we don't need to worry about cleaning up old subscriptions as we go: the IoT Foundation
 	# will handle this automatically.
 	if client is not None:
+		logger.info("Disconnecting client %s" % data["email"])
+		deviceLogger.info("Disconnecting client %s" % data["email"])
 		client.disconnect()
+		client.logger.removeHandler(clientsLogHandler)
 	
+	if clientsLogHandler is not None:
+		logger.info("Removing handler from device %s logger" % data["email"])
+		deviceLogger.removeHandler(clientsLogHandler)
 
 @app.route('/static/<path:path>')
 def service_static(path):
