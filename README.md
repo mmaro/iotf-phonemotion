@@ -65,7 +65,7 @@ $ cf bind-service <app_name> phonemotion-cloudant
 
 ###Start the application
 ```
-cf start <app_name>
+$ cf start <app_name>
 ```
 ###Launch your application
 
@@ -76,14 +76,31 @@ Open http://&lt;app_name&gt;.mybluemix.net/ in a browser
 
 
 ##Configuration
+
+###Themes
+
 The demo supports multiple themes.  The Demo running in Bluemix uses a highly customised theme specifically designed for the Bluemix Internet of Things solution page, but there are a number of simpler themes included in the sample code that provide a cleaner starting point for building your own application based on this sample.
 
 One way to do this is to use the cf **set-env** command:
 ```
-cf set-env <app_name> theme simple
+$ cf set-env <app_name> theme simple
 ```
 
 To change the theme simply set a value for the "theme" environment variable to one of these options:
  - **default** - The original theme, provides the traditional interface associated with a modern web application, with discrete registration and login options for the application user.
  - **simple** - A simplified theme, which combines registration and login into a single "Go" action.  This will login a user if the username matches an existing user (and the PIN is correct), or register a new user if the username is new to the system.  This is the model that the demo running in the Bluemix IOT zone utilises.
  - **bluemix** - A highly customised theme designed to seemlessly integrate into the Bluemix IOT Zone.
+
+###Monitoring
+The demo supports integrated monitoring which can alert you when something goes wrong.  This consists of both a PagerDuty email integration and a Slack Webhook.  They can be enabled using environment variables:
+```bash
+$ cf set-env <app-name> slackwebhookurl <slack-web-hook-url>
+$ cf set-env <app-name> pagerdutyemail <pagerduty-email-address-integration>
+```
+
+If either of these environment variables are set, error events will be sent to them.
+
+Monitoring can be tested using a specific URL (http://<host>/test/monitoring) when the *enablemonitoringtest* environment variable is set to "true".
+
+In order to use the PagerDuty integration, a SendGrid service needs to be bound to the application.  Alternatively, *smtpserver*, *smtpusername* and *smtppassword* can be set in the environment to achieve the same.
+
