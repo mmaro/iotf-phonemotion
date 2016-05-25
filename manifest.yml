@@ -8,8 +8,8 @@ declared-services:
   
 applications:
 - services:
-  - iotdemo-cloudant
-  - iotdemo-iotf
+  - iot-python-phone-demo-cloudantNoSQLDB
+  - iot-python-phone-demo-iotf-service
   memory: 256M
   disk_quota: 512M
   command: python server.py
